@@ -1,0 +1,10 @@
+/server/__pycache__
+/server/.idea
+/server/.pytest_cache
+/server/extend/__pycache__
+/server/routers/__pycache__
+/server/test/__pycache__
+/api-server/.idea
+/api-server/__pycache__
+/api-server/extend/__pycache__
+/api-server/routers/__pycache__
