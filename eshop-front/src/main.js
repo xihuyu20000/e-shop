@@ -10,6 +10,11 @@ Vue.config.productionTip = false
 
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/'
+axios.interceptors.request.use(config => {
+  config.headers.Authorization = window.sessionStorage.getItem('token')
+  console.log('拦截器', config)
+  return config
+})
 Vue.prototype.$http = axios
 
 new Vue({

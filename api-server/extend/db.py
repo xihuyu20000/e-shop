@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pymysql
 from DBUtils.PersistentDB import PersistentDB
 
@@ -19,20 +21,67 @@ POOL = PersistentDB(
     cursorclass=pymysql.cursors.DictCursor
 )
 
+
 def fetchall(sql, data):
-    conn = POOL.connection()  # conn = SteadyDBConnection()
+    conn = POOL.connection()
     cursor = conn.cursor()
     cursor.execute(sql, data)
     result = cursor.fetchall()
     cursor.close()
-    conn.close()  # 不是真的关闭，而是假的关闭
+    conn.close()
     return result
 
+
 def fetchone(sql, data):
-    conn = POOL.connection()  # conn = SteadyDBConnection()
+    conn = POOL.connection()
     cursor = conn.cursor()
     cursor.execute(sql, data)
     result = cursor.fetchone()
     cursor.close()
-    conn.close()  # 不是真的关闭，而是假的关闭
+    conn.close()
+    return result
+
+
+def page(tablename: str, queryParams = None):
+    pagenum: int = int(queryParams['pageNo'] if 'pageNo' in queryParams.keys() else 1)
+    pagesize: int = int(queryParams['pageSize'] if 'pageSize' in queryParams.keys() else 1)
+
+    sql1 = 'SELECT count(*) AS count FROM ' + tablename + ' WHERE 1=1 '
+    sql2 = 'SELECT * FROM ' + tablename + ' WHERE 1=1 '
+
+    whereParam = ''
+    for key, value in queryParams.items():
+        if key and value:
+            if key not in ('pageNo', 'pageSize'):
+                whereParam += " AND {} LIKE '%{}%'".format(key, value)
+        print('查询条件', key,":", value)
+
+    if whereParam:
+        sql1 += whereParam
+        sql2 += whereParam
+    sql2 += ' LIMIT ' + str((pagenum - 1) * pagesize) + ' , ' + str(pagesize)
+
+    print('分页语句', sql2)
+    conn = POOL.connection()
+    cursor = conn.cursor()
+
+    cursor.execute(sql1)
+    result_count = cursor.fetchone()
+
+    cursor.execute(sql2)
+    result_all = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+    return result_count['count'], result_all
+
+
+def execute(sql, data):
+    conn = POOL.connection()
+    cursor = conn.cursor()
+    result = cursor.execute(sql, data)
+    conn.commit()
+    print('执行增删改', sql, data, result)
+    cursor.close()
+    conn.close()
     return result

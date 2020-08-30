@@ -2,14 +2,10 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from extend import config, db
 
-
-
-
 from datetime import timedelta, datetime
 import jwt
 
-from routers import ok, fail
-
+from . import ok, fail
 
 def create_access_token(*, data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
@@ -43,3 +39,40 @@ async def login(loginForm: LoginForm):
         return ok("登录成功", user)
     else:
         return fail(400, '没有此用户')
+
+@router.get('/menus/')
+async def menus():
+    menus = [
+        {"path": "/home", "label": "首页", "icon": "el-icon-s-home"},
+        {"id":125,      "label":"用户管理",     "icon": "el-icon-user",
+         "children": [
+             {"path": "users", "label": "用户列表", "icon": "el-icon-setting"},
+         ]
+         },
+        {"id": 103,     "label":"权限管理",     "icon": "el-icon-user",
+         "children": [
+             {"path": "/roles", "label": "角色列表", "icon": "el-icon-setting"},
+             {"path": "/rights", "label": "权限列表", "icon": "el-icon-setting"}
+         ]
+         },
+        {"id": 101, "label": "商品管理", "icon": "el-icon-user",
+         "children": [
+             {"path": "/page1", "label": "页面一", "icon": "el-icon-setting"},
+             {"path": "/page2", "label": "页面二", "icon": "el-icon-setting"}
+         ]
+         },
+        {"id": 102, "label": "订单管理", "icon": "el-icon-user",
+         "children": [
+             {"path": "/page1", "label": "页面一", "icon": "el-icon-setting"},
+             {"path": "/page2", "label": "页面二", "icon": "el-icon-setting"}
+         ]
+         },
+        {"id": 145, "label": "数据统计", "path": "reports", "icon": "el-icon-setting",
+         "children": [
+             {"path": "/page1", "label": "页面一", "icon": "el-icon-setting"},
+             {"path": "/page2", "label": "页面二", "icon": "el-icon-setting"}
+         ]
+         }
+
+    ]
+    return ok("获取菜单成功", menus)

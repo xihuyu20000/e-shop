@@ -1,5 +1,5 @@
 <template>
-  <div><el-button type="info" @click="quit">退出</el-button></div>
+  <div>Home</div>
 </template>
 
 <script>

@@ -3,8 +3,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-
-
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -16,7 +14,9 @@ app.add_middleware(
 
 
 import routers.authorize as authorize
+import routers.user as user
 app.include_router(authorize.router, prefix='/api/private/v1')
+app.include_router(user.router, prefix='/api/private/v1')
 
 @app.get('/')
 async def index():
