@@ -8,3 +8,5 @@
 /api-server/__pycache__
 /api-server/extend/__pycache__
 /api-server/routers/__pycache__
+/api-server/.venv
+/api-server/.vscode
