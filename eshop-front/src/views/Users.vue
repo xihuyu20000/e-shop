@@ -1,6 +1,6 @@
 <template>
   <div class="common-table">
-    <common-table></common-table>
+    <common-table v-on:refresh="loadData"></common-table>
   </div>
 </template>
 

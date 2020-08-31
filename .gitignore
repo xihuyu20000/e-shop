@@ -10,3 +10,4 @@
 /api-server/routers/__pycache__
 /api-server/.venv
 /api-server/.vscode
+/api-server/.env

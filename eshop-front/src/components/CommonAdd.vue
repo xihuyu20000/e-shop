@@ -46,6 +46,7 @@ export default {
         this.$emit('flushTable')
       })
       this.canshow = false
+      this.$emit('refresh')
     }
   }
 }

@@ -16,7 +16,7 @@ POOL = PersistentDB(
     port=3306,
     user='root',
     password='admin',
-    database='test',
+    database='scitools',
     charset='utf8',
     cursorclass=pymysql.cursors.DictCursor
 )

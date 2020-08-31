@@ -31,7 +31,7 @@ class LoginForm(BaseModel):
 
 @router.post('/login/')
 async def login(loginForm: LoginForm):
-    user = db.fetchone('select * from stu where name=%s and pwd=%s', (loginForm.username, loginForm.password))
+    user = db.fetchone('select * from sys_user where user_name=%s and passwd=%s', (loginForm.username, loginForm.password))
     if user:
         access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(data={"username": loginForm.username}, expires_delta=access_token_expires)

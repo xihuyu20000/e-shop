@@ -1,8 +1,9 @@
 <template>
-  <div>Home</div>
+  <common-form></common-form>
 </template>
 
 <script>
+import CommonForm from '@/components/CommonForm.vue'
 export default {
   data() {
     return {}
@@ -12,7 +13,8 @@ export default {
       window.sessionStorage.clear()
       this.$router.push('/login')
     }
-  }
+  },
+  components: { CommonForm }
 }
 </script>
 
